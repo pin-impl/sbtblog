@@ -8,6 +8,7 @@ import javax.inject.Singleton
 class BlogService {
 
   def listBlogs:List[BlogVO] = {
+    val parser: RowParser[BlogVO]
     SQL(
       """
         | select * from blog
