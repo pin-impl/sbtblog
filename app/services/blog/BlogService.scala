@@ -1,18 +1,27 @@
 package services.blog
 
-import anorm._
-import anorm.model.BlogVO
-import javax.inject.Singleton
+
+
+import play.api.db.Database
+import anorm.SQL
+import anorm.SqlParser._
+import javax.inject.{Inject, Singleton}
+import org.joda.time.DateTime
 
 @Singleton
-class BlogService {
+class BlogService @Inject() (db: Database) {
 
-  def listBlogs:List[BlogVO] = {
-    val parser: RowParser[BlogVO]
-    SQL(
-      """
-        | select * from blog
-      """.stripMargin).as()
+
+
+  def listBlog = {
+    db.withConnection { implicit connection =>
+      SQL("select title, read_count, create_time from blog").as(
+        (str("title")
+          ~ str("read_count")
+          ~ get[DateTime]("create_time") map flatten) *)
+
+    }
+
 
   }
 }
