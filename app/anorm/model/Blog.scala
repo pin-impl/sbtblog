@@ -15,7 +15,7 @@ object Blog {
     long("id") ~
       str("title") ~
       str("content") ~
-      int("read_count") map {
+      long("read_count") map {
       case id ~ title ~ content ~ viewCount => Blog(id, title, content, viewCount)
     }
   }
