@@ -1,6 +1,6 @@
 package anorm.model
 
-import anorm.{ResultSetParser, RowParser}
+import anorm.{ResultSetParser, RowParser, ~}
 import anorm.SqlParser._
 
 case class Blog(
@@ -12,10 +12,10 @@ case class Blog(
 
 object Blog {
   val parser: RowParser[Blog] = {
-    long("id") ~
-      str("title") ~
-      str("content") ~
-      long("read_count") map {
+    long("blog.id") ~
+      str("blog.title") ~
+      str("blog.content") ~
+      long("blog.read_count") map {
       case id ~ title ~ content ~ viewCount => Blog(id, title, content, viewCount)
     }
   }
