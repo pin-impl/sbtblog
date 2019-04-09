@@ -3,6 +3,9 @@ package anorm.vo
 import anorm.{ResultSetParser, RowParser, ~}
 import anorm.SqlParser._
 import org.joda.time.DateTime
+import play.api.libs.json.{JodaReads, JodaWrites, Json, Writes}
+
+
 
 case class BlogSummary(
                         id: Long,
@@ -23,4 +26,7 @@ object BlogSummary {
   }
 
   val listParser: ResultSetParser[List[BlogSummary]] = parser *
+
+//  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("dd/MM/yyyy HH:mm:ss")
+  implicit val writers = Json.writes[BlogSummary]
 }
