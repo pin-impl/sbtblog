@@ -10,9 +10,11 @@ import services.blog.BlogService
 @Singleton
 class BlogController @Inject() (cc: ControllerComponents, blogService: BlogService) extends AbstractController(cc) {
 
+  val log = Logger(this.getClass)
+
   def blogList = Action {
     val blogs = blogService.blogList
-    Logger.debug("" + blogs.mkString)
+    log.debug("" + blogs.mkString)
     Ok(views.html.index(blogs.mkString))
   }
 
@@ -20,8 +22,8 @@ class BlogController @Inject() (cc: ControllerComponents, blogService: BlogServi
     val summaryList = blogService.blogSummaryList()
     val next = summaryList.lastOption.map(s => s.id).getOrElse(0L)
     val result = CollectionResult(summaryList, next)
-    Logger.debug(result.toString)
-    Ok(Json.toJson(result))
+    log.debug(result.toString)
+    Ok(views.html.list(result))
   }
 
 }
