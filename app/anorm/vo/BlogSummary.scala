@@ -27,6 +27,6 @@ object BlogSummary {
 
   val listParser: ResultSetParser[List[BlogSummary]] = parser *
 
-//  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("dd/MM/yyyy HH:mm:ss")
+  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("dd/MM/yyyy HH:mm:ss")
   implicit val writers = Json.writes[BlogSummary]
 }

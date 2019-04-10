@@ -1,6 +1,6 @@
 package controllers.blog
 
-import anorm.vo.CollectionResult
+import anorm.vo.{BlogSummary, CollectionResult}
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.libs.json.Json
