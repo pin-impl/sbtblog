@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   ws ,
   specs2 % Test ,
   guice  ,
+  evolutions,
   "mysql" % "mysql-connector-java" % "5.1.41",
   "org.playframework.anorm" %% "anorm" % "2.6.0",
   "org.slf4j" % "slf4j-api" % "1.7.25",

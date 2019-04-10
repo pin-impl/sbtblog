@@ -1,7 +1,5 @@
 package services.blog
 
-
-
 import play.api.db.Database
 import anorm.SQL
 import anorm.model.Blog
@@ -10,8 +8,6 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class BlogService @Inject() (db: Database) {
-
-
 
   def blogList: List[Blog] = {
     db.withConnection { implicit connection =>
