@@ -3,7 +3,6 @@ package controllers.blog
 import anorm.vo.{BlogSummary, CollectionResult}
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
-import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 import services.blog.BlogService
 
@@ -24,6 +23,15 @@ class BlogController @Inject() (cc: ControllerComponents, blogService: BlogServi
     val result = CollectionResult(summaryList, next)
     log.debug(result.toString)
     Ok(views.html.list(result))
+  }
+
+  def blog(id: Long) = Action {
+    val blog = blogService.blogDetail(id)
+    blog map { b =>
+      Ok(views.html.article(b))
+    } getOrElse {
+      Redirect("/blog/summary/list")
+    }
   }
 
 }

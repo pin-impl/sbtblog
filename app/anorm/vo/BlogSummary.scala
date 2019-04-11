@@ -29,6 +29,28 @@ object BlogSummary {
 
   val listParser: ResultSetParser[List[BlogSummary]] = parser *
 
-  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("dd/MM/yyyy HH:mm:ss")
-  implicit val writers = Json.writes[BlogSummary]
+  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("yyyy-MM-dd HH:mm:ss")
+}
+
+
+case class BlogDetail(
+                     id: Long,
+                     title: String,
+                     image: String,
+                     content: String,
+                     createTime: DateTime
+                     )
+object BlogDetail {
+  val parser: RowParser[BlogDetail] = {
+    long("id") ~
+    str("title") ~
+    str("image") ~
+    str("content") ~
+    get[DateTime]("create_time") map {
+      case id ~ title ~ image ~ content ~ createTime => BlogDetail(id, title, image, content, createTime)
+    }
+  }
+
+  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("yyyy-MM-dd HH:mm:ss")
+
 }

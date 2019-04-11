@@ -15,5 +15,5 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET     /blogs                      controllers.blog.BlogController.blogList
 GET     /blog/summary/list          controllers.blog.BlogController.listSummary(next: Long ?= 0)
-
+GET     /blog/$id<[0-9]+>           controllers.blog.BlogController.blog(id: Long)
       
