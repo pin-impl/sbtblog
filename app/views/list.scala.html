@@ -6,10 +6,10 @@
 
 
     <div class="weui-panel weui-panel_access">
-        <div class="weui-panel__hd">文字组合列表</div>
+        <div class="weui-panel__hd">文章列表</div>
         <div class="weui-panel__bd">
             @for(blog <- summary.data) {
-                <div class="weui-media-box weui-media-box_text">
+                <div onclick="renderToBlog(@blog.id)" class="weui-media-box weui-media-box_text">
                     <h4 class="weui-media-box__title">@blog.title</h4>
                     <p class="weui-media-box__desc">@blog.summary</p>
                 </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="weui-panel__ft">
             <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
-                <div class="weui-cell__bd">查看更多</div>
+                <div class="weui-cell__bd" onclick="nextPage(@summary.next)">查看更多</div>
                 <span class="weui-cell__ft"></span>
             </a>
         </div>

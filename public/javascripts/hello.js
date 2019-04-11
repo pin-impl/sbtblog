@@ -1,3 +1,8 @@
-if (window.console) {
-  console.log("Welcome to your Play application's JavaScript!");
+
+function renderToBlog(id) {
+    window.location.href = '/blog/' + id;
+}
+
+function nextPage(next) {
+    window.location.href = '/blog/summary/list?next=' + next;
 }
