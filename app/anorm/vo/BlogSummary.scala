@@ -41,6 +41,7 @@ case class BlogDetail(
                      createTime: DateTime
                      )
 object BlogDetail {
+
   val parser: RowParser[BlogDetail] = {
     long("id") ~
     str("title") ~
@@ -50,7 +51,5 @@ object BlogDetail {
       case id ~ title ~ image ~ content ~ createTime => BlogDetail(id, title, image, content, createTime)
     }
   }
-
-  implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("yyyy-MM-dd HH:mm:ss")
 
 }

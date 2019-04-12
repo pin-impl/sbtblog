@@ -1,13 +1,12 @@
 @import anorm.vo.BlogDetail
 
 @(blog: BlogDetail)
-
 @main(blog.title) {
 
     <article class="weui-article">
         <h1>@blog.title</h1>
         <section>
-            <h5 class="blog-time">@blog.createTime</h5>
+            <h5 class="blog-time">@blog.createTime.toString("yyyy-MM-dd")</h5>
             <section>
                 <p>
                     @Html(blog.content)
