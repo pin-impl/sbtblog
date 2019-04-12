@@ -3,4 +3,12 @@
 
 @views.html.admin.admin("发布") {
 
+    <div id="content"></div>
+
+    <script src="//cdn.bootcss.com/require.js/2.3.6/require.min.js" data-main=""></script>
+    <script src="//cdn.bootcss.com/marked/0.6.2/marked.min.js"></script>
+    <script src="//cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
+    <script type="application/javascript">
+        document.getElementById("content").innerHTML = marked('# Marked in browser\n\nRender by **marked**.')
+    </script>
 }

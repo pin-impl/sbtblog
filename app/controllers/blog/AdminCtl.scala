@@ -9,6 +9,6 @@ class AdminCtl @Inject() (cc: ControllerComponents) extends AbstractController(c
 
   def publishPage = Action {
 
-    Ok(views.html.admin.publish)
+    Ok(views.html.admin.publish())
   }
 }
