@@ -11,4 +11,9 @@ class AdminCtl @Inject() (cc: ControllerComponents) extends AbstractController(c
 
     Ok(views.html.admin.publish())
   }
+
+  def publishBlog = Action {
+
+    Redirect("/blog/")
+  }
 }
