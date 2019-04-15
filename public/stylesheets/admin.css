@@ -5,8 +5,19 @@
     display: flex;
     min-height: 500px;
 }
-.editor {
+.blog-info {
     flex: 40;
+}
+.blog-title {
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+.editor {
+    width: 100%;
+    height: 100%;
     font-size: 15px;
     border-radius: 5px;
 }
@@ -17,4 +28,21 @@
 }
 .markdown-preview {
     flex: 40;
+}
+.publish-ctl {
+    display: flex;
+    height: 100px;
+}
+.publish-space {
+    flex: 10;
+}
+.btn-panel {
+    flex: 1;
+}
+.btn-publish {
+    width: 80px;
+    height: 30px;
+    color: white;
+    border-radius: 90px;
+    background-color: #62beff;
 }

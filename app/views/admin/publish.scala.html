@@ -3,11 +3,20 @@
 
 @views.html.admin.admin("发布") {
 
+    <div class="publish-ctl">
+        <div class="publish-space"></div>
+        <div class="btn-panel">
+            <button class="btn-publish">发布</button>
+        </div>
+    </div>
+
     <div class="publish">
+        <div class="blog-info">
+        <input class="blog-title" id="title">
         <textarea class="editor" id="content"># Marked in browser
-
-            Render by **marked**.</textarea>
-
+Render by **marked**.
+        </textarea>
+        </div>
         <div class="separator"></div>
         <div id="show-md" class="markdown-preview"></div>
     </div>
@@ -36,14 +45,24 @@
 
         var showMD = document.getElementById("show-md");
 
-        showMD.innerHTML = marked('# Marked in browser\n\nRender by **marked**.');
+        var title = document.getElementById('title');
+
+        showMD.innerHTML = marked(markdown.value);
 
         markdown.addEventListener('keyup', refreshMD);
 
         function refreshMD(e) {
             console.log(markdown.value);
-            console.log(markdown.value.split('\n')[0]);
             showMD.innerHTML = marked(markdown.value);
+        }
+
+        var blog = {};
+        function save() {
+            var blogInfo = marked(markdown.value);
+            var lineInfo = blogInfo.split('\n');
+            blog.title = title.value;
+            blog.summary = lineInfo[0] + lineInfo[1];
+            blog.content = blogInfo;
         }
     </script>
 }

@@ -20,11 +20,8 @@ object AnormExtension {
     }
   }
 
-  implicit val dateTimeToStatement = new ToStatement[DateTime] {
-
-    override def set(s: PreparedStatement, index: Int, v: DateTime): Unit = {
-      v.getMillis
-      s.setTimestamp(index, new Timestamp(v.withMillisOfSecond(0).getMillis))
-    }
+  implicit val dateTimeToStatement: ToStatement[DateTime] = (s: PreparedStatement, index: Int, v: DateTime) => {
+    v.getMillis
+    s.setTimestamp(index, new Timestamp(v.withMillisOfSecond(0).getMillis))
   }
 }
