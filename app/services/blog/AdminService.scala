@@ -1,12 +1,13 @@
 package services.blog
 
-import akka.http.scaladsl.model.DateTime
 import anorm.model.Blog
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.db.Database
 import anorm.SQL
 import anorm.SqlParser.scalar
+import org.joda.time.DateTime
+import anorm.AnormExtension._
 
 @Singleton
 class AdminService @Inject() (db: Database) {
