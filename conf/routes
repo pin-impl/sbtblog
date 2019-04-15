@@ -19,4 +19,5 @@ GET     /blog/$id<[0-9]+>           controllers.blog.BlogController.blog(id: Lon
 
 #Admin
 GET     /publish                    controllers.blog.AdminCtl.publishPage
++nocsrf
 POST    /blog/publish               controllers.blog.AdminCtl.publishBlog()

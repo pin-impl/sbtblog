@@ -1,8 +1,10 @@
 package controllers.blog
 
 import anorm.model.Blog
+import anorm.vo.PublishBlog
 import common.AuthAction
 import javax.inject.{Inject, Singleton}
+import play.api.libs.json.Json._
 import play.api.mvc.{AbstractController, ControllerComponents}
 import services.blog.AdminService
 
@@ -16,15 +18,13 @@ class AdminCtl @Inject() (cc: ControllerComponents, adminService: AdminService) 
       Ok(views.html.admin.publish())
   }
 
-  def publishBlog = AuthAction {
-    Action(parse.json) { implicit request =>
-      request.body.validate[Blog].fold(
+  def publishBlog = Action(parse.json) { implicit request =>
+      request.body.validate[PublishBlog].fold(
         errors => BadRequest(errors.mkString),
         blog => {
           val id = adminService.saveBlog(blog)
-          Redirect(s"/blog/$id")
+          Ok(toJson("url" -> s"/blog/$id"))
         }
       )
-    }
   }
 }

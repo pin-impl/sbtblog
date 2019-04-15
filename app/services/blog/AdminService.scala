@@ -8,12 +8,13 @@ import anorm.SQL
 import anorm.SqlParser.scalar
 import org.joda.time.DateTime
 import anorm.AnormExtension._
+import anorm.vo.PublishBlog
 
 @Singleton
 class AdminService @Inject() (db: Database) {
   val log = Logger(this.getClass)
 
-  def saveBlog(blog: Blog): Long = {
+  def saveBlog(blog: PublishBlog): Long = {
     db.withConnection { implicit conn =>
       SQL(
         """
@@ -22,8 +23,8 @@ class AdminService @Inject() (db: Database) {
           |values
           |({title}, {summary}, {content}, {image}, {viewCount}, {createTime}, {updateTime})
         """.stripMargin).on("title" -> blog.title,
-        "summary" -> blog.summary, "content" -> blog.content, "image" -> blog.image,
-      "viewCount" -> blog.viewCount, "createTime" -> DateTime.now, "updateTime" -> DateTime.now).executeInsert(scalar[Long].single)
+        "summary" -> blog.summary, "content" -> blog.content, "image" -> "",
+      "viewCount" -> 0, "createTime" -> DateTime.now, "updateTime" -> DateTime.now).executeInsert(scalar[Long].single)
 
 //      SQL(
 //        """

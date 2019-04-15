@@ -6,7 +6,7 @@
     <div class="publish-ctl">
         <div class="publish-space"></div>
         <div class="btn-panel">
-            <button class="btn-publish">发布</button>
+            <button class="btn-publish" onclick="save()">发布</button>
         </div>
     </div>
 
@@ -65,7 +65,14 @@ Render by **marked**.
             blog.content = blogInfo;
             fetch('/blog/publish', {
                 method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(blog)
+            }).then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                window.location.href = data.url;
             });
         }
     </script>
