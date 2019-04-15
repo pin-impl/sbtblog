@@ -3,6 +3,7 @@ package anorm.model
 import anorm.{ResultSetParser, RowParser, ~}
 import anorm.SqlParser._
 import org.joda.time.DateTime
+import play.api.libs.json._
 
 case class Blog(
                id: Long,
@@ -32,5 +33,9 @@ object Blog {
   val listParser: ResultSetParser[List[Blog]] = {
     parser *
   }
+
+  val pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+  implicit val dateFormat = Format[DateTime](JodaReads.jodaDateReads(pattern), JodaWrites.jodaDateWrites(pattern))
+  implicit val fmt = Json.format[Blog]
 
 }

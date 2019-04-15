@@ -13,9 +13,9 @@ import anorm.AnormExtension._
 class AdminService @Inject() (db: Database) {
   val log = Logger(this.getClass)
 
-  def saveBlog(blog: Blog): Option[Blog] = {
+  def saveBlog(blog: Blog): Long = {
     db.withConnection { implicit conn =>
-      val key = SQL(
+      SQL(
         """
           |insert into blog
           |(title, summary, content, image, view_count, create_time, update_time)
@@ -25,10 +25,10 @@ class AdminService @Inject() (db: Database) {
         "summary" -> blog.summary, "content" -> blog.content, "image" -> blog.image,
       "viewCount" -> blog.viewCount, "createTime" -> DateTime.now, "updateTime" -> DateTime.now).executeInsert(scalar[Long].single)
 
-      SQL(
-        """
-          |select * from blog where id = {id}
-        """.stripMargin).on("id" -> key).as(Blog.parser.singleOpt)
+//      SQL(
+//        """
+//          |select * from blog where id = {id}
+//        """.stripMargin).on("id" -> key).as(Blog.parser.singleOpt)
     }
   }
 
