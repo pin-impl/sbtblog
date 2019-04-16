@@ -20,13 +20,18 @@ code {
     font-size: 0.8em;
 }
 code.has-numbering {
-    margin-left: 21px;
+    /*margin-left: 21px;*/
+    margin-left: 10px;
+    word-wrap: normal;
+    word-break: keep-all;
+    white-space: pre;
 }
 .pre-numbering {
     position: absolute;
     top: 0;
     left: 0;
     width: 20px;
+    height: 100%;
     padding: 12px 2px 12px 0;
     border-right: 1px solid #C3CCD0;
     border-radius: 3px 0 0 3px;

@@ -27,6 +27,7 @@ Render by **marked**.
     <script src="//cdn.bootcss.com/marked/0.6.2/marked.min.js"></script>
     <script src="//cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
     <script type="application/javascript">
+        hljs.initHighlightingOnLoad()
         var rendererMD = new marked.Renderer();
         marked.setOptions({
             highlight: function (code) {
