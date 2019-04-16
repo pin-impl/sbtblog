@@ -61,7 +61,7 @@ Render by **marked**.
             var blogInfo = marked(markdown.value);
             var lineInfo = blogInfo.split('\n');
             blog.title = title.value;
-            blog.summary = lineInfo[0] + lineInfo[1];
+            blog.summary = (lineInfo[0] + lineInfo[1]).replace(/<[^>]+>/g,"");
             blog.content = blogInfo;
             fetch('/blog/publish', {
                 method: 'post',
@@ -74,6 +74,8 @@ Render by **marked**.
             }).then(function (data) {
                 console.log(data)
                 window.location.href = data.url;
+            }).catch(function (reason) {
+                console.log(reason);
             });
         }
     </script>
