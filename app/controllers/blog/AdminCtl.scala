@@ -4,13 +4,14 @@ import anorm.model.Blog
 import anorm.vo.PublishBlog
 import common.AuthAction
 import javax.inject.{Inject, Singleton}
-import play.api.libs.json.Json._
+import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 import services.blog.AdminService
 
 
 @Singleton
-class AdminCtl @Inject() (cc: ControllerComponents, adminService: AdminService) extends AbstractController(cc) {
+class AdminCtl @Inject() (cc: ControllerComponents, adminService: AdminService)
+  extends AbstractController(cc) with play.api.Logging {
 
 
   def publishPage = Action {
@@ -23,7 +24,8 @@ class AdminCtl @Inject() (cc: ControllerComponents, adminService: AdminService) 
         errors => BadRequest(errors.mkString),
         blog => {
           val id = adminService.saveBlog(blog)
-          Ok(toJson("url" -> s"/blog/$id"))
+          logger.info(s"success add a blog. $id")
+          Ok(Json.obj("url" -> s"/blog/$id"))
         }
       )
   }
