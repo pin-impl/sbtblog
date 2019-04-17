@@ -28,6 +28,8 @@
 }
 .markdown-preview {
     flex: 40;
+    max-width: 500px;
+    overflow-x: scroll;
 }
 .publish-ctl {
     display: flex;
