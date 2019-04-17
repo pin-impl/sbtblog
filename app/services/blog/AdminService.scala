@@ -26,10 +26,6 @@ class AdminService @Inject() (db: Database) {
         "summary" -> blog.summary, "content" -> blog.content, "image" -> "",
       "viewCount" -> 0, "createTime" -> DateTime.now, "updateTime" -> DateTime.now).executeInsert(scalar[Long].single)
 
-//      SQL(
-//        """
-//          |select * from blog where id = {id}
-//        """.stripMargin).on("id" -> key).as(Blog.parser.singleOpt)
     }
   }
 

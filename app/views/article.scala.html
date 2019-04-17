@@ -12,21 +12,16 @@
         <section>
             <h5 class="blog-time">@blog.createTime.toString("yyyy-MM-dd")</h5>
             <section>
-                <p id="blog-content">
-                    @blog.content
-                </p>
+                <p id="blog-content">@blog.content</p>
                 <p>
                     <img src="@blog.image" alt="">
                 </p>
             </section>
         </section>
     </article>
-
     <script src="//cdn.bootcss.com/marked/0.6.2/marked.min.js"></script>
     <script src="//cdn.bootcss.com/highlight.js/9.15.6/highlight.min.js"></script>
-    <script src="@routes.Assets.versioned("javascripts/code_style.js")" type="text/javascript"></script>
     <script type="application/javascript">
-        hljs.initHighlightingOnLoad()
         var rendererMD = new marked.Renderer();
         marked.setOptions({
             highlight: function (code) {
@@ -42,16 +37,7 @@
             smartypants: false
         });
         var blogContainer = document.getElementById('blog-content')
-        console.log(blogContainer.innerText)
-        blogContainer.innerHTML = marked(blogContainer.innerText)
-
-        // blogContainer.addEventListener('click', function (ev) {
-        //     blogContainer.innerHTML = marked(blogContainer.innerText)
-        // })
-        hljs.configure({useBR: true});
-        document.querySelectorAll('code').forEach((block) => {
-            hljs.highlightBlock(block);
-        });
+        blogContainer.innerHTML = marked(blogContainer.textContent)
     </script>
     <script src="@routes.Assets.versioned("javascripts/code_style.js")" type="text/javascript"></script>
 }
