@@ -3,7 +3,9 @@
 @(blog: BlogDetail)
 @main(blog.title) {
     @*<link href="//cdn.bootcss.com/highlight.js/9.15.6/styles/github.min.css" rel="stylesheet">*@
-    <link href="//cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-dark.min.css" rel="stylesheet">
+@*    <link href="//cdn.bootcss.com/highlight.js/9.15.6/styles/darcula.min.css" rel="stylesheet">*@
+@*    <link href="//cdn.bootcss.com/highlight.js/9.15.6/styles/a11y-dark.min.css" rel="stylesheet">*@
+    <link href="//cdn.bootcss.com/highlight.js/9.15.6/styles/monokai-sublime.min.css" rel="stylesheet">
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/code_style.css")">
     <article class="weui-article">
         <h1>@blog.title</h1>

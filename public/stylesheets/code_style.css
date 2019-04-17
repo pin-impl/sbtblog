@@ -13,9 +13,11 @@ code {
     font-weight: 300;
     font-family: Menlo, monospace;
     font-size: 0.8em;
+    /*Code Style*/
+    background-color: #282c34;
+    color: #abb2bf;
 }
 code.has-numbering {
-    /*margin-left: 21px;*/
     margin-left: 10px;
     word-wrap: normal;
     word-break: keep-all;
