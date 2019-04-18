@@ -6,7 +6,7 @@ Array.from(document.querySelectorAll('pre code')).forEach(function(node) {
     $numbering.className = 'pre-numbering'
     node.className = 'has-numbering'
     node.parentNode.appendChild($numbering)
-    for (var i = 0; i <= lines; i++) {
+    for (var i = 1; i < lines; i++) {
         var num = document.createElement('li')
         num.innerText = i + ''
         $numbering.append(num)

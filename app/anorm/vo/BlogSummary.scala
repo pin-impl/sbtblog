@@ -51,6 +51,9 @@ object BlogDetail {
       case id ~ title ~ image ~ content ~ createTime => BlogDetail(id, title, image, content, createTime)
     }
   }
+  val pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+  implicit val dateFormat = Format[DateTime](JodaReads.jodaDateReads(pattern), JodaWrites.jodaDateWrites(pattern))
+  implicit val fmt = Json.format[BlogDetail]
 
 }
 

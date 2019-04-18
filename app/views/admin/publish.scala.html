@@ -19,9 +19,6 @@
         <div class="separator"></div>
         <div id="show-md" class="markdown-preview"></div>
     </div>
-    @article.map { a =>
-        <span id="blog-id">@a.id</span>
-    }
 
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/admin.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/code_style.css")">
@@ -61,10 +58,10 @@
             showMD.innerHTML = marked(markdown.value);
         }
 
-        var idNode = document.getElementById('blog-id')
         var blog = {};
-        if (idNode) {
-            blog.id = idNode.innerText
+        @article.map { a =>
+            blog.id = @a.id
+            blog.image = '@a.image'
         }
         function save() {
             var blogInfo = marked(markdown.value);
