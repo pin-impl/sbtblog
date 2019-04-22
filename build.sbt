@@ -24,7 +24,8 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-api" % "1.7.25",
   "joda-time" % "joda-time" % "2.10",
   "org.joda" % "joda-convert" % "2.1.1",
-  "com.typesafe.play" %% "play-json-joda" % "2.7.2"
+  "com.typesafe.play" %% "play-json-joda" % "2.7.2",
+  "com.pauldijou" %% "jwt-core" % "2.1.0"
 )
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  

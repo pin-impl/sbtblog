@@ -14,6 +14,7 @@
     border-radius: 10px;
     margin-bottom: 10px;
     font-size: 15px;
+    text-align: center;
 }
 .editor {
     width: 100%;
@@ -34,6 +35,7 @@
 .publish-ctl {
     display: flex;
     height: 100px;
+    padding-top: 100px;
 }
 .publish-space {
     flex: 10;

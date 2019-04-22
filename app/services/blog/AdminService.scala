@@ -8,7 +8,7 @@ import anorm.SQL
 import anorm.SqlParser.scalar
 import org.joda.time.DateTime
 import anorm.AnormExtension._
-import anorm.vo.PublishBlog
+import anorm.vo.{BlogDetail, PublishBlog}
 
 @Singleton
 class AdminService @Inject() (db: Database) {
@@ -26,6 +26,25 @@ class AdminService @Inject() (db: Database) {
         "summary" -> blog.summary, "content" -> blog.content, "image" -> "",
       "viewCount" -> 0, "createTime" -> DateTime.now, "updateTime" -> DateTime.now).executeInsert(scalar[Long].single)
 
+    }
+  }
+
+  def getBlogById(id: Long): Option[BlogDetail] = {
+    db.withConnection { implicit conn =>
+      SQL(
+        """
+          |select title, id, summary, content, image, create_time from blog where id = {id}
+        """.stripMargin).on("id" -> id).as(BlogDetail.parser.singleOpt)
+    }
+  }
+
+  def updateBlog(blog: BlogDetail): Int = {
+    db.withConnection { implicit conn =>
+      SQL(
+        """
+          |update blog set title = {title}, content = {content}, update_time = now() where id = {id}
+        """.stripMargin).on("title" -> blog.title, "content" -> blog.content, "id" -> blog.id)
+        .executeUpdate()
     }
   }
 

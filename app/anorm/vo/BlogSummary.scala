@@ -39,7 +39,17 @@ case class BlogDetail(
                      image: String,
                      content: String,
                      createTime: DateTime
-                     )
+                     ) {
+  def this(id: Long, p: PublishBlog) {
+    this(
+      id,
+      title = p.title,
+      "",
+      content = p.content,
+      DateTime.now
+    )
+  }
+}
 object BlogDetail {
 
   val parser: RowParser[BlogDetail] = {
@@ -58,6 +68,7 @@ object BlogDetail {
 }
 
 case class PublishBlog(
+                      id: Option[Long],
                       title: String,
                       summary: String,
                       content: String

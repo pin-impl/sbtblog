@@ -25,9 +25,15 @@ class AdminCtl @Inject() (cc: ControllerComponents,
       request.body.validate[PublishBlog].fold(
         errors => BadRequest(errors.mkString),
         blog => {
-          val id = adminService.saveBlog(blog)
-          logger.info(s"success add a blog. $id")
-          Ok(Json.obj("url" -> s"/blog/$id"))
+          logger.info("blog param to publish or edit. " + blog.toString)
+          val blogId = blog.id.map {id =>
+            adminService.updateBlog(new BlogDetail(id, blog))
+            id
+          } getOrElse  {
+            adminService.saveBlog(blog)
+          }
+          logger.info(s"success add a blog. $blogId")
+          Ok(Json.obj("url" -> s"/blog/$blogId"))
         }
       )
   }
