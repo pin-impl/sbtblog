@@ -1,7 +1,9 @@
 name := "sbtblog"
  
-version := "1.0" 
-      
+version := "1.0"
+
+maintainer := "zhaopinchn@hotmail.com"
+
 lazy val `sbtblog` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
