@@ -4,9 +4,15 @@ import play.api.db.Database
 import anorm.SQL
 import anorm.vo.{BlogDetail, BlogSummary}
 import javax.inject.{Inject, Singleton}
+import play.api.Logger
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
 
 @Singleton
-class BlogService @Inject() (db: Database) {
+class BlogService @Inject() (db: Database)  {
+  val logger = Logger(this.getClass)
 
   def blogSummaryList(next: Long = 0, size: Int = 10): List[BlogSummary] = {
     db.withConnection { implicit conn =>
@@ -17,6 +23,16 @@ class BlogService @Inject() (db: Database) {
 
   def blogDetail(id: Long): Option[BlogDetail] = {
     db.withConnection {implicit conn =>
+      val result = Future {
+        SQL(
+          """
+            |update blog set view_count = view_count + 1 where id = {id}
+          """.stripMargin).on("id" -> id).executeUpdate()
+      }
+      result.onComplete {
+        case Success(_) => logger.info(s"blog $id view count increased.")
+        case Failure(exception) => logger.error(exception.getLocalizedMessage)
+      }
       SQL(
         """
           | select id, title, image, content, create_time from blog where id = {id}
