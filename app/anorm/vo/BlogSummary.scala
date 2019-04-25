@@ -4,7 +4,6 @@ import anorm.{ResultSetParser, RowParser, ~}
 import anorm.SqlParser._
 import org.joda.time.DateTime
 import anorm.AnormExtension._
-import anorm.model.Blog
 import play.api.libs.json.{Format, JodaReads, JodaWrites, Json}
 
 
