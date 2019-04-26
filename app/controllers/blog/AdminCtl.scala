@@ -3,10 +3,10 @@ package controllers.blog
 import anorm.vo.{BlogDetail, PublishBlog}
 import action.{JwtAction, LoginUser}
 import javax.inject.{Inject, Singleton}
-import form.FormModule._
 import play.api.libs.json.Json
-import play.api.mvc.{AbstractController, ControllerComponents}
+import play.api.mvc.{AbstractController, ControllerComponents, Cookie}
 import services.blog.{AdminService, BlogService}
+
 
 
 @Singleton
@@ -44,30 +44,25 @@ class AdminCtl @Inject() (cc: ControllerComponents,
     Ok(views.html.admin.publish(blog))
   }
 
-  def editBlog = jwtAction(parse.json) { implicit request =>
-    request.body.validate[BlogDetail].fold(
-      errors => BadRequest(errors.mkString),
-      blog => {
-        Ok
-      }
-    )
-  }
-
   def toLogin = Action {implicit request =>
 
-    Ok(views.html.admin.login(userForm))
+    Ok(views.html.admin.login())
   }
 
-  def login = Action { implicit request =>
-    userForm.bindFromRequest.fold(
+  def login = Action(parse.json) { implicit request =>
+    request.body.validate[LoginUser].fold(
       error => {
-        error
+        logger.error(s"login error ${error.mkString}")
+        Ok(views.html.admin.login())
       },
       loginUser => {
-        loginUser
+        adminService.loginUser(loginUser.user, loginUser.password).map(user => {
+          val cookie = Cookie(name = "z-token", value = user.generateToken, maxAge = Some(60 * 60 * 24))
+          Ok(Json.obj("url" -> s"/blogs")).withCookies(cookie)
+        }) getOrElse {
+          Ok(views.html.admin.login())
+        }
       }
     )
-    val loginUser = request.body
-    Ok(loginUser)
   }
 }

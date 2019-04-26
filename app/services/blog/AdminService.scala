@@ -1,5 +1,6 @@
 package services.blog
 
+import action.User
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.db.Database
@@ -44,6 +45,15 @@ class AdminService @Inject() (db: Database) {
           |update blog set title = {title}, content = {content}, update_time = now() where id = {id}
         """.stripMargin).on("title" -> blog.title, "content" -> blog.content, "id" -> blog.id)
         .executeUpdate()
+    }
+  }
+
+  def loginUser(username: String, password: String): Option[User] = {
+    db.withConnection { implicit conn =>
+      SQL(
+        """
+          |select username, id from user where username = {username} and password = {password}
+        """.stripMargin).on("username" -> username, "password" -> password).as(User.parser.singleOpt)
     }
   }
 

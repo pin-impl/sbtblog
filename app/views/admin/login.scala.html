@@ -1,11 +1,27 @@
-@import action.LoginUser
-@(form: Form[LoginUser])
 
 @views.html.admin.admin("Login Page") {
-    @helper.form("/login") {
-        @helper.CSRF.formField
-        @helper.inputText(form("user"))
-        @helper.inputText(form("password"))
-        <button>Login</button>
-    }
+
+    <label>用户名</label><input type="text" id="user">
+    <label>密码</label><input type="password" id="pwd">
+    <button id="btn" onclick="login()">Login</button>
+
+
+    <script type="application/javascript">
+        function login() {
+            var user = document.getElementById('user').valueOf()
+            var password = document.getElementById('pwd').valueOf()
+            var param = {username: user, password: password}
+            fetch('/login', {
+                method: "POST",
+                body: JSON.stringify(param),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                window.location.href = data.url
+            })
+        }
+    </script>
 }

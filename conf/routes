@@ -25,4 +25,5 @@ POST    /blog/publish               controllers.blog.AdminCtl.publishBlog()
 GET     /blog/edit/$id<[0-9]+>      controllers.blog.AdminCtl.toEditBlog(id: Long)
 
 GET     /login                      controllers.blog.AdminCtl.toLogin
++nocsrf
 POST    /login                      controllers.blog.AdminCtl.login
