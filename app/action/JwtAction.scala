@@ -6,6 +6,7 @@ import play.api.libs.json.{JsPath, Json, Reads}
 import play.api.libs.functional.syntax._
 import play.api.mvc._
 import play.api.mvc.Results.Ok
+import form.FormModule._
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -25,7 +26,9 @@ class JwtAction @Inject() (parser: BodyParsers.Default)(implicit ec: ExecutionCo
         val userRequest = UserRequest(user, request)
         block(userRequest)
       }
-      case Failure(exception) => Future.successful(Ok())
+      case Failure(_) => {
+        Future.successful(Ok(views.html.admin.login(userForm)))
+      }
     }
   }
 

@@ -1,6 +1,5 @@
 package services.blog
 
-import anorm.model.Blog
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.db.Database

@@ -1,6 +1,11 @@
+@import action.LoginUser
+@(form: Form[LoginUser])
 
 @views.html.admin.admin("Login Page") {
-    <form>
-
-    </form>
+    @helper.form("/login") {
+        @helper.CSRF.formField
+        @helper.inputText(form("user"))
+        @helper.inputText(form("password"))
+        <button>Login</button>
+    }
 }
