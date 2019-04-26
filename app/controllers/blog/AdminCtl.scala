@@ -1,8 +1,10 @@
 package controllers.blog
 
 import anorm.vo.{BlogDetail, PublishBlog}
-import common.JwtAction
+import common.{JwtAction, LoginUser}
 import javax.inject.{Inject, Singleton}
+import play.api.data.Form
+import play.api.data.Forms._
 import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 import services.blog.{AdminService, BlogService}
@@ -25,7 +27,7 @@ class AdminCtl @Inject() (cc: ControllerComponents,
       request.body.validate[PublishBlog].fold(
         errors => BadRequest(errors.mkString),
         blog => {
-          logger.info("blog param to publish or edit. " + blog.toString)
+          logger.info(s"blog param to publish or edit. ${blog.toString}")
           val blogId = blog.id.map {id =>
             adminService.updateBlog(new BlogDetail(id, blog))
             id
@@ -50,5 +52,17 @@ class AdminCtl @Inject() (cc: ControllerComponents,
         Ok
       }
     )
+  }
+
+  val userForm = Form(
+    mapping(
+      "user" -> nonEmptyText,
+      "password" -> nonEmptyText
+    )(LoginUser.apply)(LoginUser.unapply)
+  )
+
+  def login = Action(parse.form(userForm)) { implicit request =>
+    val loginUser = request.body
+    Ok(loginUser)
   }
 }

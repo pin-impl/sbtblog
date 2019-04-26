@@ -25,7 +25,6 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.10",
   "org.joda" % "joda-convert" % "2.1.1",
   "com.typesafe.play" %% "play-json-joda" % "2.7.2",
-  "com.typesafe.akka" %% "akka-actor" % "2.5.22",
   "com.pauldijou" %% "jwt-core" % "2.1.0"
 )
 

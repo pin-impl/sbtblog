@@ -44,3 +44,7 @@ object User {
   implicit val fmt = Json.format[User]
 }
 
+case class LoginUser(
+                    user: String,
+                    password: String
+                    )
