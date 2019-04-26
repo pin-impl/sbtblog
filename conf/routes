@@ -23,3 +23,6 @@ GET     /publish                    controllers.blog.AdminCtl.publishPage
 POST    /blog/publish               controllers.blog.AdminCtl.publishBlog()
 
 GET     /blog/edit/$id<[0-9]+>      controllers.blog.AdminCtl.toEditBlog(id: Long)
+
+GET     /login                      controllers.blog.AdminCtl.toLogin
+POST    /login                      controllers.blog.AdminCtl.login

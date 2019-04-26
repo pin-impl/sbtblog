@@ -1,7 +1,7 @@
 package controllers.blog
 
 import anorm.vo.{BlogDetail, PublishBlog}
-import common.{JwtAction, LoginUser}
+import action.{JwtAction, LoginUser}
 import javax.inject.{Inject, Singleton}
 import play.api.data.Form
 import play.api.data.Forms._
@@ -61,7 +61,21 @@ class AdminCtl @Inject() (cc: ControllerComponents,
     )(LoginUser.apply)(LoginUser.unapply)
   )
 
-  def login = Action(parse.form(userForm)) { implicit request =>
+  def toLogin = Action {implicit request =>
+
+    val postUrl = "/login"
+    Ok(views.html.admin.login(userForm, postUrl))
+  }
+
+  def login = Action { implicit request =>
+    userForm.bindFromRequest.fold(
+      error => {
+        error
+      },
+      loginUser => {
+        loginUser
+      }
+    )
     val loginUser = request.body
     Ok(loginUser)
   }

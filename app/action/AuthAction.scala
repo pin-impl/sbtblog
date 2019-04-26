@@ -1,4 +1,4 @@
-package common
+package action
 
 import play.api.mvc._
 import play.api.mvc.Results.Forbidden

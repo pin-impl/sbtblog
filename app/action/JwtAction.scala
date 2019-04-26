@@ -1,4 +1,4 @@
-package common
+package action
 
 import javax.inject.Inject
 import pdi.jwt.{Jwt, JwtAlgorithm}
@@ -25,7 +25,7 @@ class JwtAction @Inject() (parser: BodyParsers.Default)(implicit ec: ExecutionCo
         val userRequest = UserRequest(user, request)
         block(userRequest)
       }
-      case Failure(exception) => Future.successful(Ok("403"))
+      case Failure(exception) => Future.successful(Ok())
     }
   }
 
