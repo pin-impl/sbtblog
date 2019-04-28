@@ -1,7 +1,7 @@
 package controllers.blog
 
 import anorm.vo.{BlogDetail, PublishBlog}
-import action.{JwtAction, LoginUser}
+import action.{JwtAction, LoginUser, UserRequest}
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents, Cookie}
@@ -17,9 +17,10 @@ class AdminCtl @Inject() (cc: ControllerComponents,
   extends AbstractController(cc) with play.api.Logging {
 
 
-  def publishPage = Action {
-
-      Ok(views.html.admin.publish(Option.empty))
+  def publishPage = jwtAction { implicit request =>
+    val req = request.asInstanceOf[UserRequest[_]]
+    logger.info(s"[${req.user.username}] want to publish blog.")
+    Ok(views.html.admin.publish(Option.empty))
   }
 
   def publishBlog = jwtAction(parse.json) { implicit request =>
@@ -53,14 +54,14 @@ class AdminCtl @Inject() (cc: ControllerComponents,
     request.body.validate[LoginUser].fold(
       error => {
         logger.error(s"login error ${error.mkString}")
-        Ok(views.html.admin.login())
+        Ok(Json.obj("url" -> "/login"))
       },
       loginUser => {
         adminService.loginUser(loginUser.user, loginUser.password).map(user => {
           val cookie = Cookie(name = "z-token", value = user.generateToken, maxAge = Some(60 * 60 * 24))
           Ok(Json.obj("url" -> s"/blogs")).withCookies(cookie)
         }) getOrElse {
-          Ok(views.html.admin.login())
+          Ok(Json.obj("url" -> "/login"))
         }
       }
     )

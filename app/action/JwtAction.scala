@@ -16,17 +16,18 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
 class JwtAction @Inject() (parser: BodyParsers.Default)(implicit ec: ExecutionContext)
-  extends ActionBuilderImpl(parser) {
+  extends ActionBuilderImpl(parser) with play.api.Logging {
 
   def apply[A](action: Action[A]) = async(action.parser) { request =>
     action(request)
   }
 
   override def invokeBlock[A](request: Request[A], block: Request[A] => Future[Result]): Future[Result] = {
-    val jwtToken = request.headers.get("jw_token").getOrElse("")
+    val jwtToken = request.cookies.get("z-token").map(c => c.value).getOrElse("")
     Jwt.decodeRaw(jwtToken, Const.SECRET, Seq(JwtAlgorithm.HS256)) match {
       case Success(payload) => {
         val user = Json.parse(payload).validate[User].get
+        logger.info(s"user [${user.username}] send a request to [${request.uri}]")
         val userRequest = UserRequest(user, request)
         block(userRequest)
       }
@@ -39,7 +40,7 @@ class JwtAction @Inject() (parser: BodyParsers.Default)(implicit ec: ExecutionCo
 
 }
 
-case class User(email: String, userId: Long) {
+case class User(username: String, userId: Long) {
   def generateToken: String = {
     val claim = JwtClaim(content = Json.toJson(this).toString,
       expiration = Some(DateTime.now.plusDays(7).getMillis),
@@ -53,8 +54,8 @@ object User {
 
   val parser: RowParser[User] = {
     long("id") ~
-    str("email") map {
-      case id ~ email => User(email, id)
+    str("username") map {
+      case id ~ username => User(username, id)
     }
   }
 

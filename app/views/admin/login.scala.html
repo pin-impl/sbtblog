@@ -8,9 +8,10 @@
 
     <script type="application/javascript">
         function login() {
-            var user = document.getElementById('user').valueOf()
-            var password = document.getElementById('pwd').valueOf()
-            var param = {username: user, password: password}
+            var user = document.getElementById('user').value
+            var password = document.getElementById('pwd').value
+            var param = {user: user, password: password}
+            console.log(param)
             fetch('/login', {
                 method: "POST",
                 body: JSON.stringify(param),
