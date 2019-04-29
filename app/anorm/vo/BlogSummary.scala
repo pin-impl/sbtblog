@@ -1,10 +1,12 @@
 package anorm.vo
 
+import play.api.libs.functional.syntax._
 import anorm.{ResultSetParser, RowParser, ~}
 import anorm.SqlParser._
 import org.joda.time.DateTime
 import anorm.AnormExtension._
-import play.api.libs.json.{Format, JodaReads, JodaWrites, Json}
+import play.api.libs.functional.syntax.unlift
+import play.api.libs.json.{Format, JodaReads, JodaWrites, JsPath, Json, Writes}
 
 
 case class BlogSummary(
@@ -76,4 +78,19 @@ object PublishBlog {
   val pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
   implicit val dateFormat = Format[DateTime](JodaReads.jodaDateReads(pattern), JodaWrites.jodaDateWrites(pattern))
   implicit val fmt = Json.format[PublishBlog]
+}
+
+case class BlogTitle(id: Long, title: String)
+object BlogTitle {
+  var parser: RowParser[BlogTitle] = {
+    long("id") ~
+    str("title") map {
+      case id ~ title => BlogTitle(id, title)
+    }
+  }
+
+  implicit val write: Writes[BlogTitle] = (
+    (JsPath \ "id").write[Long] and
+      (JsPath \ "title").write[String]
+    )(unlift(BlogTitle.unapply))
 }

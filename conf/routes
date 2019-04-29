@@ -27,3 +27,6 @@ GET     /blog/edit/$id<[0-9]+>      controllers.blog.AdminCtl.toEditBlog(id: Lon
 GET     /login                      controllers.blog.AdminCtl.toLogin
 +nocsrf
 POST    /login                      controllers.blog.AdminCtl.login
+
+GET     /search                     controllers.blog.BlogController.search(keyword: String)
+GET     /search/title               controllers.blog.BlogController.searchTitle(keyword: String)

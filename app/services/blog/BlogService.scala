@@ -2,7 +2,7 @@ package services.blog
 
 import play.api.db.Database
 import anorm.SQL
-import anorm.vo.{BlogDetail, BlogSummary}
+import anorm.vo.{BlogDetail, BlogSummary, BlogTitle}
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 
@@ -37,6 +37,26 @@ class BlogService @Inject() (db: Database)  {
         """
           | select id, title, image, content, create_time from blog where id = {id}
         """.stripMargin).on("id" -> id).as(BlogDetail.parser.singleOpt)
+    }
+  }
+
+  def search(keyword: String): List[BlogSummary] = {
+    db.withConnection { implicit conn =>
+      SQL(
+        """
+          |select id, title, image, summary, create_time
+          |from blog
+          |where title like %{key}% or content like %{key}% order by id desc limit 10
+        """.stripMargin).on("key" -> keyword).as(BlogSummary.listParser)
+    }
+  }
+
+  def searchTitle(keyword: String): List[BlogTitle] = {
+    db.withConnection {implicit conn =>
+      SQL(
+        """
+          |select id, title from blog where title like {keyword} order by id desc limit 10
+        """.stripMargin).on("keyword" -> s"%$keyword%").as(BlogTitle.parser *)
     }
   }
 

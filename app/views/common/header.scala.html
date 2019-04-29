@@ -14,3 +14,18 @@
     </form>
     <a href="javascript:" class="weui-search-bar__cancel-btn" id="search_cancel">取消</a>
 </div>
+<script type="application/javascript">
+    var input = document.getElementById('search_input')
+    function search() {
+        var keyword = input.value
+        fetch('/search/title?keyword=' + keyword, {
+            method: 'get'
+        }).then(function (response) {
+            return response.json()
+        }).then(function(data) {
+            console.log(data.list)
+        })
+    }
+    input.addEventListener('keyup', search)
+
+</script>

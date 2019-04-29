@@ -1,8 +1,9 @@
 package controllers.blog
 
-import anorm.vo.CollectionResult
+import anorm.vo.{BlogSummary, CollectionResult}
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
+import play.api.libs.json.Json
 import play.api.mvc.{AbstractController, ControllerComponents}
 import services.blog.BlogService
 
@@ -26,6 +27,17 @@ class BlogController @Inject() (cc: ControllerComponents, blogService: BlogServi
     } getOrElse {
       Redirect("/blogs")
     }
+  }
+
+  def search(keyword: String) = Action {
+    val searchList = blogService.search(keyword)
+    val result = CollectionResult(searchList, 0)
+    Ok(views.html.list(result))
+  }
+
+  def searchTitle(keyword: String) = Action {
+    val titles = blogService.searchTitle(keyword)
+    Ok(Json.obj("list" -> titles))
   }
 
 }
